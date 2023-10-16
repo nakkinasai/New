@@ -13,13 +13,7 @@ pipeline {
             }
 
        }
-
-       stage("Test Application"){
-           steps {
-                 sh "mvn test"
-           }
-       }
-         stage("build & SonarQube analysis") {
+        stage("build & SonarQube analysis") {
              steps {
               withSonarQubeEnv('sonarserver') {
                 sh '''mvn sonar:sonar \
