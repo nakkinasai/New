@@ -7,12 +7,22 @@ pipeline {
             }
         }
          
-        stage("Build Application"){
+        stages {
+        stage('Clean Compile') {
             steps {
-                sh "mvn clean package"
-            }
+                
+                // Clean and compile.
+                sh "mvn clean compile" }
+        }
+        
+        stage('Install') {
+            steps {
+                
+                
+                sh "mvn install"
 
-       }
+            }
+        }
         stage("build & SonarQube analysis") {
              steps {
               withSonarQubeEnv('sonarserver') {
