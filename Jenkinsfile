@@ -6,26 +6,19 @@ pipeline {
                 git branch: 'Dev', url: 'https://github.com/nakkinasai/New.git'
             }
         }
-         stage('Clean Compile') {
-            steps {
-                
-                // Clean and compile.
-                sh "mvn clean compile"
-
-            }
-        }
          
-        stage('Test') {
+        stage("Build Application"){
             steps {
-                // Test Cases.
-                sh "mvn test"
+                sh "mvn clean package"
             }
-        }
-        stage('Install') {
-            steps {
-                sh "mvn install"
-             }
-         }
+
+       }
+
+       stage("Test Application"){
+           steps {
+                 sh "mvn test"
+           }
+       }
          stage("build & SonarQube analysis") {
              steps {
               withSonarQubeEnv('sonarserver') {
