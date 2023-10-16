@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Install') {
             steps {
-         
+                sh "mvn install"
              }
          }
          stage("build & SonarQube analysis") {
