@@ -3,7 +3,7 @@ pipeline {
      stages {
         stage('Clone sources') {
             steps {
-                git branch: 'dev', url: 'https://github.com/nakkinasai/New.git'
+                git branch: 'Dev', url: 'https://github.com/nakkinasai/New.git'
             }
         }
          stage('Clean Compile') {
