@@ -44,15 +44,11 @@ pipeline {
                         )
                 }
         }
-	      stage("deploy-dev"){
-       steps{
-          sshagent(['tomcat-dev1']) {
-          sh """
-          scp -o StrictHostKeyChecking=no target/MyWebApp.war  
-          Linux@13.126.76.37:/opt/tomcat/webapps/
-          ssh Linux@13.126.76.37 /opt/tomcat/bin/shutdown.sh
-          ssh Linux@13.126.76.37 /opt/tomcat/bin/startup.sh
-           """
+	      stage ('Deployments') {
+		      parallel{
+			      stage ("Deploy to Staging") {
+				      steps {
+					      sh "scp -v -o StrictHostKeyChecking=no **/*.war root@${params.tomcat_staging}:/tomcat/webappa/"
 			  
 				  
  }
