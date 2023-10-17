@@ -19,6 +19,28 @@ pipeline {
                         sh "mvn sonar:sonar"
               }
             }
+		   stage("Artifactory_Upload"){
+           steps{
+               rtUpload (
+                   serverId: 'artifactory',
+                            spec: '''{
+                            "files": [
+                            {
+                            "pattern": "*.war",
+                            "target": "miniasg/"
+                                
+                            }
+                        ]
+                                
+                    }''',
+                )
+                           
+                rtPublishBuildInfo(
+                        serverId:"artifactory"
+                        )
+                }
+        }
+
           }
 }
 	     
