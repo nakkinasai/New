@@ -46,7 +46,7 @@ pipeline {
         }
 	     stage("deploy"){
 		     steps{
-			sshagent(['deploy_uer']) {
+			sshagent(['deploy_user']) {
 	                    sh "scp -o StrictHostkeyChecking=no MyWebApp/target/MyWebApp.war ec2-user@13.126.76.37:/tomcat/ Apache Tomcat/9.0.82/MyWebApps"
 			  
 				  
