@@ -44,10 +44,15 @@ pipeline {
                         )
                 }
         }
-	     stage("deploy"){
-		     steps{
-			sshagent(['deploy_user']) {
-	                    sh "scp -o StrictHostkeyChecking=no MyWebApp/target/MyWebApp.war ec2-user@13.126.76.37:/tomcat/ Apache Tomcat/9.0.82/MyWebApps"
+	      stage("deploy-dev"){
+       steps{
+          sshagent(['tomcat-dev1']) {
+          sh """
+          scp -o StrictHostKeyChecking=no target/MyWebApp.war  
+          Linux@13.126.76.37:/opt/tomcat/webapps/
+          ssh Linux@13.126.76.37 /opt/tomcat/bin/shutdown.sh
+          ssh Linux@13.126.76.37 /opt/tomcat/bin/startup.sh
+           """
 			  
 				  
  }
