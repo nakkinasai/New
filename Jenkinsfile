@@ -12,13 +12,11 @@ pipeline {
          stage ('maven build'){
              steps{ sh" mvn clean install" }
          }
-         stage("build & SonarQube analysis") {
-             steps {
-              withSonarQubeEnv('sonarserver') {
-                sh '''mvn sonar:sonar \
-                -Dsonar.projectKey=five \
-                -Dsonar.host.url=http://13.233.204.68:9000 /
-                -Dsonar.login=5c2c436d1dc5d49d7cee67a87e472aa3f03b967b'''
+         stage("SonarQube Analysis"){
+           steps {
+	           script {
+		        withSonarQubeEnv(credentialsId: 'jenkins-sonarqube') { 
+                        sh "mvn sonar:sonar"
               }
             }
           }
