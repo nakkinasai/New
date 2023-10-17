@@ -19,7 +19,11 @@ pipeline {
                         sh "mvn sonar:sonar"
               }
             }
-	stage("Artifactory_Upload"){
+		   
+          }
+
+         }     
+         stage("Artifactory_Upload"){
            steps{
                rtUpload (
                    serverId: 'artifactory',
@@ -41,9 +45,8 @@ pipeline {
                 }
         }
 
-          }
-
-         }     
 }
 
-}    
+}     
+
+
