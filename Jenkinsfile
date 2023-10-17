@@ -14,7 +14,7 @@ pipeline {
                 // Clean and compile.
                 sh "mvn clean compile" }
         }
-        
+        stages {
         stage('Install') {
             steps {
                 
@@ -35,4 +35,4 @@ pipeline {
           }
 }
 }
-}
+
