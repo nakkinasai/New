@@ -1,37 +1,35 @@
 pipeline {
-    agent any
-     stages {
-        stage('Clone sources') {
-            steps {
-                git branch: 'Dev', url: 'https://github.com/nakkinasai/New.git'
-            }
-        }
-         
-        stages {
-        stage('Clean Compile') {
-            steps {
-                
-                // Clean and compile.
-                sh "mvn clean compile" }
-        }
-        
-        stage('Install') {
-            steps {
-                
-                
-                sh "mvn install"
+    agent { label 'Jenkins-Agent' }
+    tools {
+        jdk 'Java17'
+        maven 'Maven3'
+    }
+}  
 
-            }
+    stages{
+        stage("Cleanup Workspace"){
+                steps {
+                cleanWs()
+                }
         }
-        stage("build & SonarQube analysis") {
-             steps {
-              withSonarQubeEnv('sonarserver') {
-                sh '''mvn sonar:sonar \
-                -Dsonar.projectKey=four \
-                -Dsonar.host.url=http://13.232.138.93:9000 /
-                -Dsonar.login=5c2c436d1dc5d49d7cee67a87e472aa3f03b967b'''
-              }
+
+        stage("Checkout from SCM"){
+                steps {
+                    git branch: 'Dev', credentialsId: 'github', url: 'https://github.com/nakkinasai/New.git'
+                }
+        }
+
+        stage("Build Application"){
+            steps {
+                sh "mvn clean package"
             }
-          }
-}
+
+       }
+
+       stage("Test Application"){
+           steps {
+                 sh "mvn test"
+           }
+       }
+    }
 }
