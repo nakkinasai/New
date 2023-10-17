@@ -3,36 +3,47 @@ pipeline {
      stages {
         stage('Clone sources') {
             steps {
-                git branch: 'Dev', url: 'https://github.com/nakkinasai/New.git'
+                git branch: 'dev', url: 'https://github.com/nakkinasai/New.git'
             }
         }
-         
-        stages {
-        stage('Clean Compile') {
+         stage('Clean Compile') {
             steps {
                 
                 // Clean and compile.
-                sh "mvn clean compile" }
-        }
-        stages {
-        stage('Install') {
-            steps {
-                
-                
-                sh "mvn install"
+                sh "mvn clean compile"
 
             }
         }
-        stage("build & SonarQube analysis") {
+         
+        stage('Test') {
+            steps {
+                // Test Cases.
+                sh "mvn test"
+            }
+        }
+        stage('Install') {
+            steps {
+                 sh "mvn install"
+            }
+        }
+         stage('build') {
+             steps {
+                 sh "mvn build"
+             }
+         }
+         stage("build & SonarQube analysis") {
              steps {
               withSonarQubeEnv('sonarserver') {
                 sh '''mvn sonar:sonar \
-                -Dsonar.projectKey=four \
-                -Dsonar.host.url=http://13.233.204.68:9000 /
+                -Dsonar.projectKey=two \
+                -Dsonar.host.url=http://13.232.138.93:9000 /
                 -Dsonar.login=5c2c436d1dc5d49d7cee67a87e472aa3f03b967b'''
               }
             }
           }
 }
 }
+
+
+
 
