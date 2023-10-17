@@ -10,7 +10,7 @@ pipeline {
             }
         }
          stage ('maven build'){
-             steps{ sh" mvn -f New/pom.xml clean install" }
+             steps{ sh" mvn clean install" }
          }
          stage("build & SonarQube analysis") {
              steps {
