@@ -3,10 +3,9 @@ pipeline {
     tools{
         maven "maven3"
     }
-     stages {
-        stage('Clone sources') {
-            steps {
-                git branch: 'Dev\nprod', url: 'https://github.com/nakkinasai/New.git'
+     stage("Git Checkout"){
+            steps{
+                git credentialsId: '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', url: 'https://github.com/nakkinasai/New.git' , branch: "${params.branch}"
             }
         }
          stage ('maven build'){
