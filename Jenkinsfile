@@ -19,7 +19,7 @@ pipeline
             }
         }
     
-    stage ("Sonar Analysis "){
+    stage ("SonarQube Analysis ") {
             steps{
                 script {
                 withSonarQubeEnv('sonarqube-latest')
