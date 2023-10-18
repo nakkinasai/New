@@ -18,13 +18,11 @@ pipeline
              steps{ sh" mvn clean install" }
             }
     
-    stage("SonarQube analysis") {
-             steps {
-              withSonarQubeEnv('sonarserver') {
-                sh '''mvn sonar:sonar \
-                -Dsonar.projectKey=new \
-                -Dsonar.host.url=http://13.127.158.147:9000 /
-                -Dsonar.login=5c2c436d1dc5d49d7cee67a87e472aa3f03b967b'''
+    stage("SonarQube Analysis"){
+           steps {
+	           script {
+		        withSonarQubeEnv(credentialsId: 'create-sonar') { 
+                        sh "mvn sonar:sonar"
    
                 }
             }
