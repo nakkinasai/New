@@ -17,7 +17,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <sonar.login>1bb1652d18f5b800fb0148bd7a13c7593f7b9aab</sonar.login>
   </properties>
 
   <dependencies>
