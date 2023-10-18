@@ -6,7 +6,7 @@ pipeline {
      stages {
         stage('Clone sources') {
             steps {
-                git branch: 'Dev', url: 'https://github.com/nakkinasai/New.git'
+                git branch: 'Dev\nprod', url: 'https://github.com/nakkinasai/New.git'
             }
         }
          stage ('maven build'){
