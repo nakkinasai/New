@@ -1,29 +1,48 @@
-pipeline {
-    agent any
+pipeline
+{
+    agent any 
+    parameters {
+        choice(choices: 'dev\nProd', description: 'Select Branch to build', name: 'branch')
+    }
+//    environment {
+        //PATH ="/opt/maven/apache-maven-3.9.5:$PATH"
+  //   }
     tools{
         maven "maven-3.9.5"
     }
-     stages {
-        stage('Clone sources') {
-            steps {
-                git branch: 'Dev\nprod', url: 'https://github.com/nakkinasai/New.git'
+    stages
+    {
+        stage("Git Checkout"){
+            steps{
+                git credentialsId: '8e2af35e-b19f-4ca3-91a7-430a20824461', url: 'https://github.com/nakkinasai/New.git' , branch: "${params.branch}"
             }
         }
-         stage ('maven build'){
-             steps{ sh" mvn clean install" }
-         }
-         stage("SonarQube Analysis"){
-           steps {
-	           script {
-		        withSonarQubeEnv(credentialsId: 'jenkins-sonarqube') { 
-                        sh "mvn sonar:sonar"
-              }
+    stage("Maven Build"){
+            steps{
+               sh" mvn -f Asg/pom.xml clean install"
             }
-		   
-          }
-
-         }     
-         stage("Artifactory_Upload"){
+        }
+    stage("Unit Testing"){
+            steps{
+                sh "mvn -f Asg/pom.xml test" 
+            }
+        }
+        stage ("Testing Results"){
+            steps{
+                junit'*/**/*.xml'
+            }
+        }
+    stage ("Sonar Analysis "){
+            steps{
+                
+                withSonarQubeEnv('sonarqube-latest')
+                {
+                    sh "mvn -f Asg/pom.xml sonar:sonar  -Dsonar.projectKey='Dev_Analysis' -Dsonar.projectName='Dev_Analysis'"
+                }
+            }
+            
+        }
+     stage("Artifactory_Upload"){
            steps{
                rtUpload (
                    serverId: 'artifactory',
@@ -44,18 +63,6 @@ pipeline {
                         )
                 }
         }
-	      stage ('Deployments') {
-		      parallel{
-			      stage ("Deploy to Staging") {
-				      steps {
-					      sh "scp -v -o StrictHostKeyChecking=no **/*.war root@${params.tomcat_staging}:/tomcat/webapps/"
-			  
-				  
- }
-}
 
-}
- }
 
-}
-}
+
