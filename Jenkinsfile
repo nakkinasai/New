@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools{
-        maven "maven3"
+        maven "maven-3.9.5"
     }
      stages {
         stage('Clone sources') {
