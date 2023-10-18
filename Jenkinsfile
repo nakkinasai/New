@@ -71,7 +71,7 @@ pipeline
                         )
                 }
         }
-    
+    }
 post{
         always{
             mail to: "sid.demo08@gmail.com",
