@@ -17,7 +17,7 @@ pipeline
      stage ('maven build'){
              steps{ sh" mvn clean install" }
             }
-        }
+    
     
     stage ("SonarQube Analysis") {
             steps{
@@ -30,6 +30,26 @@ pipeline
             
         }
     }
+        /*
+    stage('SonarQube Analysis'){
+            steps{
+                script{
+                    def sonarServerName = 'SonarQube'  // The name you provided for your SonarQube
+                    def sonarProjectKey = 'create  // The project key
+                    def sonarProjectName = 'Mini_Asg_02'  // The project name
+
+ 
+
+                    def mvnTool = tool name: 'Maven-3', type: 'hudson.tasks.Maven$MavenInstallation'
+
+ 
+
+                    withSonarQubeEnv(sonarServerName) {
+                    sh " cd Mini_Asg_02 && mvn clean verify sonar:sonar -Dsonar.projectKey=${sonarProjectKey} -Dsonar.projectName='${sonarProjectName}'"
+                    }
+                }
+            }
+        }*/
      stage("Artifactory_Upload"){
            steps{
                rtUpload (
