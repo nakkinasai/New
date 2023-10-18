@@ -19,12 +19,12 @@ pipeline
         }
     stage("Maven Build"){
             steps{
-               sh" mvn -f New/pom.xml clean install"
+               sh" mvn -f New/Dev/pom.xml clean install"
             }
         }
     stage("Unit Testing"){
             steps{
-                sh "mvn -f New/pom.xml test" 
+                sh "mvn -f New/Dev/pom.xml test" 
             }
         }
         stage ("Testing Results"){
@@ -37,7 +37,7 @@ pipeline
                 
                 withSonarQubeEnv('sonarqube-latest')
                 {
-                    sh "mvn -f New/pom.xml sonar:sonar  -Dsonar.projectKey='four' -Dsonar.projectName='four'"
+                    sh "mvn -f New/Dev/pom.xml sonar:sonar  -Dsonar.projectKey='four' -Dsonar.projectName='four'"
                 }
             }
             
