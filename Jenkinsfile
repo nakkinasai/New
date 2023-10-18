@@ -2,7 +2,7 @@ pipeline
 {
     agent any 
     parameters {
-        choice(choices: 'dev\nPro', description: 'Select Branch to build', name: 'branch')
+        choice(choices: 'Dev\nPro', description: 'Select Branch to build', name: 'branch')
     }
 
     tools{
@@ -24,7 +24,7 @@ pipeline
                 script {
                 withSonarQubeEnv('sonarqube')
                 {
-                    sh "mvn sonar:sonar  -Dsonar.projectKey='create' -Dsonar.host.url='http://13.127.158.147:9000'  -Dsonar.login='1bb1652d18f5b800fb0148bd7a13c7593f7b9aab'"
+                    sh " mvn sonar:sonar -Dsonar.projectKey=create -Dsonar.host.url=http://13.127.158.147:9000 -Dsonar.login=1bb1652d18f5b800fb0148bd7a13c7593f7b9aab "
                 }
             }
             
