@@ -51,50 +51,7 @@ pipeline
                         )
                 }
         }
-    stage('Tomcat Deployment'){
-            steps{
-                script{
-                    if(params.branch=='dev'){
-                        def tomcatcheck = sh(returnStdout: true, script: 'netstat -tuln | grep 8086 || true')
-                        if(tomcatcheck)
-                            {
-                                echo "Tomcat is up . working on stopping tomcat"
-                                sh "sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh stop"
-                    }
-                        else{
-                            echo "Starting server"
-                        }
-                    
-                    sh 'sudo sed -i "s/8086/8087/" /root/apache-tomcat-7.0.109/conf/server.xml'
-                    sh 'sudo rm -r /root/apache-tomcat-7.0.109/webapps/*'
-                    sh 'sudo mv Asg/target/Asg.war /root/apache-tomcat-7.0.109/webapps/ROOT.war'
-                    sh 'sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh configtest'
-                    sh 'sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh start'
-                    }
-                    else if(params.branch=='Pro'){
-                        def tomcatcheck = sh(returnStdout: true, script: 'netstat -tuln | grep 8087 || true')
-                        if(tomcatcheck)
-                            {
-                                echo "Tomcat is up . working on stopping tomcat"
-                                sh "sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh stop"
-                    }
-                        else{
-                            echo "Starting Server"
-                        }
-                    
-                    sh 'sudo sed -i "s/8087/8086/" /root/apache-tomcat-7.0.109/conf/server.xml'
-                    sh 'sudo rm -r /root/apache-tomcat-7.0.109/webapps/*'
-                    sh 'sudo cp Asg/target/Asg.war /root/apache-tomcat-7.0.109/webapps/ROOT.war'
-                    sh 'sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh configtest'
-                    sh 'sudo sh /root/apache-tomcat-7.0.109/bin/catalina.sh start'
-                    }
-                    else{
-                        error('Kindly lookup the code')
-                    }
-            }
-        }
-    }
-}
+    
 post{
         always{
             mail to: "sid.demo08@gmail.com",
