@@ -29,6 +29,7 @@ pipeline
             }
             
         }
+    }
      stage("Artifactory_Upload"){
            steps{
                rtUpload (
