@@ -22,7 +22,7 @@ pipeline
     stage ("SonarQube Analysis") {
             steps{
                 script {
-                withSonarQubeEnv('sonarqube')
+                withSonarQubeEnv('sonarserver')
                 {
                     sh " mvn sonar:sonar -Dsonar.projectKey=create -Dsonar.host.url=http://13.127.158.147:9000 -Dsonar.login=1bb1652d18f5b800fb0148bd7a13c7593f7b9aab "
                 }
