@@ -14,17 +14,17 @@ pipeline
     {
         stage("Git Checkout"){
             steps{
-                git credentialsId: '8e2af35e-b19f-4ca3-91a7-430a20824461', url: 'https://github.com/nakkinasai/New.git' , branch: "${params.branch}"
+                git credentialsId: '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', url: 'https://github.com/nakkinasai/New.git' , branch: "${params.branch}"
             }
         }
     stage("Maven Build"){
             steps{
-               sh" mvn -f Asg/pom.xml clean install"
+               sh" mvn -f New/pom.xml clean install"
             }
         }
     stage("Unit Testing"){
             steps{
-                sh "mvn -f Asg/pom.xml test" 
+                sh "mvn -f New/pom.xml test" 
             }
         }
         stage ("Testing Results"){
@@ -37,7 +37,7 @@ pipeline
                 
                 withSonarQubeEnv('sonarqube-latest')
                 {
-                    sh "mvn -f Asg/pom.xml sonar:sonar  -Dsonar.projectKey='Dev_Analysis' -Dsonar.projectName='Dev_Analysis'"
+                    sh "mvn -f New/pom.xml sonar:sonar  -Dsonar.projectKey='four' -Dsonar.projectName='four'"
                 }
             }
             
@@ -63,6 +63,8 @@ pipeline
                         )
                 }
         }
+    }
+}
 
 
 
